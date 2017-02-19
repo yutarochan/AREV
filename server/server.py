@@ -33,15 +33,20 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
             packet = json.loads(message)
             output = dict()
 
-            if packet['cmd'] == 'fetchData3D':
-                output['resp'] = 'fetchData3D'
-                output['data'] = m.get3DModel().tolist()
-                self.write_message(str(json.dumps(output)))
+            if 'cmd' in packet:
+                if packet['cmd'] == 'fetchData3D':
+                    output['resp'] = 'fetchData3D'
+                    output['data'] = m.get3DModel().tolist()
+                    if 'args' in packet and packet['args'] == 'all':
+                        output['node_id'] = m.model.index2word
+                    self.write_message(str(json.dumps(output)))
 
-            if packet['cmd'] == 'fetchData2D':
-                output['resp'] = 'fetchData2D'
-                output['data'] = m.get2DModel().tolist()
-                self.write_message(str(json.dumps(output)))
+                if packet['cmd'] == 'fetchData2D':
+                    output['resp'] = 'fetchData2D'
+                    output['data'] = m.get2DModel().tolist()
+                    if 'args' in packet and packet['args'] == 'all':
+                        output['node_id'] = m.model.index2word
+                    self.write_message(str(json.dumps(output)))
 
         except Exception as err:
             print 'error handling packet'
