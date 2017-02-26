@@ -26,7 +26,7 @@ Parameters: NONE
 Input Message:
 
 	{ 
-		"cmd": "fetchData3D" 
+		"cmd": "fetchData3D"， 
 		"args": "cord"
 	}
 
